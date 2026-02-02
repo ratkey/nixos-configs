@@ -10,6 +10,7 @@
     brightnessctl
     brave
     direnv
+    hyprpaper
   ];
   programs.bash = {
     enable = true;
@@ -58,23 +59,6 @@
       allow_images = true;
       image_size = 24;
     };
-  };
-  services.hyprpaper = {
-    enable = true;
-    settings =  {
-      preload = [
-        "~/walls/wall.jpg"
-      ];
-      wallpaper = [
-        ",~/walls/wall.jpg"
-      ];
-    };
-  };
-  programs.gpg.enable = true;
-  services.gpg-agent = {
-    enable = true;
-    pinentry.package = pkgs.pinentry-gnome3;
-    enableSshSupport = true;
   };
   home.file.".config/hypr".source = ./config/hypr;
 }
