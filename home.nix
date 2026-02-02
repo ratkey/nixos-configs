@@ -8,6 +8,8 @@
     pamixer
     vscode
     brightnessctl
+    brave
+    direnv
   ];
   programs.bash = {
     enable = true;
