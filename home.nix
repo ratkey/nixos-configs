@@ -5,6 +5,8 @@
   home.packages = with pkgs; [
     wl-clipboard
     cliphist
+    pamixer
+    brightnessctl
   ];
   programs.bash = {
     enable = true;
