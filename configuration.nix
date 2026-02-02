@@ -17,7 +17,7 @@
     useOSProber = true;
   };
 
-  networking.hostName = "nixos-btw";
+  networking.hostName = "nixos";
   # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 

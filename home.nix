@@ -6,6 +6,7 @@
     wl-clipboard
     cliphist
     pamixer
+    vscode
     brightnessctl
   ];
   programs.bash = {
@@ -53,6 +54,20 @@
       insensitive = true;
       allow_images = true;
       image_size = 24;
+    };
+  };
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      ipc = "on";
+      splash = false;
+      wallpaper = [
+        {
+	  monitor = "";
+	  path = "/home/cother/walls/wall1.jpg";
+	  fit_mode = "cover";
+	}
+      ];
     };
   };
   home.file.".config/hypr".source = ./config/hypr;
