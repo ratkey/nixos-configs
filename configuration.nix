@@ -64,6 +64,8 @@
   environment.systemPackages = with pkgs; [
     wget
     kitty
+    brave
+    firefox
   ];
 
   programs.hyprland = {

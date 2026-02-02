@@ -8,14 +8,16 @@
     pamixer
     vscode
     brightnessctl
-    brave
     direnv
     hyprpaper
+    waybar
+    tmux
   ];
   programs.bash = {
     enable = true;
     shellAliases = {
       btw = "echo I use nixos, btw";
+      fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
     };
     profileExtra = ''
       if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
@@ -61,4 +63,5 @@
     };
   };
   home.file.".config/hypr".source = ./config/hypr;
+  home.file.".config/waybar".source = ./config/waybar;
 }
