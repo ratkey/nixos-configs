@@ -69,8 +69,8 @@
   environment.systemPackages = with pkgs; [
     wget
     kitty
-    hyprpaper
     brave
+    direnv
   ];
 
   fonts.packages = with pkgs; [

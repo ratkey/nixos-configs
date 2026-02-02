@@ -18,6 +18,7 @@
       if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
         exec hyprland
       fi
+      ssh-add ~/.ssh/id_ed25519 2>/dev/null
     '';
   };
   programs.neovim = {
@@ -30,9 +31,9 @@
   };
   programs.git = {
     enable = true;
-    userName = "cother";
-    userEmail = "cother@protonmail.com";
-    extraConfig =  {
+    settings = {
+      user.name = "cother";
+      user.email = "cother@protonmail.com";
       init.defaultBranch = "main";
       core.editor = "nvim";
     };
@@ -58,17 +59,20 @@
   };
   services.hyprpaper = {
     enable = true;
-    settings = {
-      ipc = "on";
-      splash = false;
+    settings =  {
+      preload = [
+        "~/walls/wall.jpg"
+      ];
       wallpaper = [
-        {
-	  monitor = "";
-	  path = "/home/cother/walls/wall1.jpg";
-	  fit_mode = "cover";
-	}
+        ",~/walls/wall.jpg"
       ];
     };
+  };
+  programs.gpg.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    pinentry.package = pkgs.pinentry-gnome3;
+    enableSshSupport = true;
   };
   home.file.".config/hypr".source = ./config/hypr;
 }
