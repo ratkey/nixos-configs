@@ -13,6 +13,9 @@
       nodePackages.prettier
       black
       nixpkgs-fmt
+
+      ripgrep
+      fd
     ];
 
     opts = {
