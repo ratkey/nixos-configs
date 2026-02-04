@@ -5,6 +5,7 @@
 
   imports = [
     nixvim.homeModules.nixvim
+    ./modules/kitty.nix
     ./modules/nixvim.nix
     ./modules/tmux.nix
     ./modules/zellij.nix

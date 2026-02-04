@@ -2,7 +2,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -54,7 +55,7 @@
     isNormalUser = true;
     description = "cother";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
   };
 
   # Allow unfree packages
@@ -63,7 +64,6 @@
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget
-    kitty
     brave
     firefox
   ];
