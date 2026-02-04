@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{ config, pkgs, ... }:
 {
   programs.nixvim = {
     enable = true;
@@ -8,55 +8,77 @@
     version.enableNixpkgsReleaseCheck = false;
     globals.mapleader = " ";
 
+    # 1. Added Black (Python) and Nixpkgs-fmt (Nix) here so they are available
     extraPackages = with pkgs; [
-    	nodePackages.prettier
+      nodePackages.prettier
+      black
+      nixpkgs-fmt
     ];
-    
+
     opts = {
-        number = true;
-        ignorecase = true;
-        smartcase = true;
-        cursorline = true;
-        wrap = false;
-        clipboard = "unnamedplus";
-	      # set tabs to 2 spaces
-        expandtab = true;
-        tabstop = 2;
-        shiftwidth = 2;
-	      softtabstop = 2;
-	      smartindent = true;
+      number = true;
+      ignorecase = true;
+      smartcase = true;
+      cursorline = true;
+      wrap = false;
+      clipboard = "unnamedplus";
+
+      # Tab settings (2 spaces)
+      expandtab = true;
+      tabstop = 2;
+      shiftwidth = 2;
+      softtabstop = 2;
+      smartindent = true;
     };
-    
+
     colorschemes.gruvbox.enable = true;
 
-# This triggers the format on save
+    # 2. Updated AutoCmd to prevent "ts_ls" from fighting Prettier
     autoCmd = [
       {
         event = [ "BufWritePre" ];
         pattern = [ "*" ];
         callback = {
           __raw = ''
-            function()
-              vim.lsp.buf.format({ async = false })
+            function(args)
+              vim.lsp.buf.format({
+                async = false,
+                bufnr = args.buf,
+                filter = function(client)
+                  -- Prevent ts_ls from formatting (let Prettier do it)
+                  return client.name ~= "ts_ls"
+                end
+              })
             end
           '';
         };
       }
     ];
-    
+
     plugins = {
       treesitter.enable = true;
       web-devicons.enable = true;
       telescope.enable = true;
 
-none-ls = {
+      none-ls = {
         enable = true;
         sources.formatting = {
-          # This enables Prettier
+          # JS/TS/HTML/CSS
           prettier = {
             enable = true;
-            disableTsServerFormatter = true; # Prevents conflicts with ts_ls
+            disableTsServerFormatter = true;
           };
+          # Python
+          black = {
+            enable = true;
+            settings = ''
+              {
+                extra_args = { "--fast" },
+              }
+            '';
+          };
+          # Nix
+          nixpkgs_fmt.enable = true;
         };
       };
 
@@ -70,6 +92,7 @@ none-ls = {
           css_ls.enable = true;
         };
       };
+
       lspsaga.enable = true;
       nvim-autopairs.enable = true;
       nvim-surround.enable = true;
@@ -78,7 +101,7 @@ none-ls = {
       gitsigns.enable = true;
       oil.enable = true;
     };
-    
+
     keymaps = [
       {
         mode = "n";
@@ -103,8 +126,8 @@ none-ls = {
       }
       {
         mode = "n";
-	key = "-";
-	action = "<cmd>Oil<CR>";
+        key = "-";
+        action = "<cmd>Oil<CR>";
       }
     ];
   };
