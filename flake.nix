@@ -11,7 +11,6 @@
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
   };
 
@@ -20,13 +19,13 @@
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
-	      home-manager.nixosModules.home-manager
+        home-manager.nixosModules.home-manager
         {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.cother = import ./home.nix;
             extraSpecialArgs = { inherit nixvim; };
+            users.cother = ./home.nix;
             backupFileExtension = "backup";
           };
         }

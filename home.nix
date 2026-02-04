@@ -1,11 +1,13 @@
 {config, pkgs, lib, nixvim, ...}: {
-  imports = [
-    nixvim.homeManagerModules.nixvim
-  ];
-  
   home.username = "cother";
   home.homeDirectory = "/home/cother";
   home.stateVersion = "25.11";
+
+  imports = [
+    nixvim.homeModules.nixvim
+    ./nixvim.nix
+  ];
+  
   home.packages = with pkgs; [
     wl-clipboard
     cliphist
@@ -29,75 +31,6 @@
       ssh-add ~/.ssh/id_ed25519 2>/dev/null
     '';
   };
-  programs.nixvim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    defaultEditor = true;
-    
-    settings = {
-      vim.opt = {
-        number = true;
-        relativenumber = true;
-        expandtab = true;
-        tabstop = 4;
-        shiftwidth = 4;
-        ignorecase = true;
-        smartcase = true;
-        clipboard = "unnamedplus";
-        cursorline = true;
-        wrap = false;
-      };
-    };
-    
-    colorschemes.tokyonight.enable = true;
-    colorschemes.tokyonight.settings.style = "moon";
-    
-    plugins = {
-      treesitter.enable = true;
-      telescope.enable = true;
-      lsp = {
-        enable = true;
-        servers = {
-          nixd.enable = true;
-          lua_ls.enable = true;
-          pyright.enable = true;
-          ts_ls.enable = true;
-        };
-      };
-      lspsaga.enable = true;
-      nvim-autopairs.enable = true;
-      nvim-surround.enable = true;
-      comment-nvim.enable = true;
-      indent-blankline.enable = true;
-      gitsigns.enable = true;
-    };
-    
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>ff";
-        action = "<cmd>Telescope find_files<CR>";
-        options.noremap = true;
-        options.silent = true;
-      }
-      {
-        mode = "n";
-        key = "<leader>fg";
-        action = "<cmd>Telescope live_grep<CR>";
-        options.noremap = true;
-        options.silent = true;
-      }
-      {
-        mode = "n";
-        key = "<leader>fb";
-        action = "<cmd>Telescope buffers<CR>";
-        options.noremap = true;
-        options.silent = true;
-      }
-    ];
-  };
-  
   programs.git = {
     enable = true;
     settings = {
