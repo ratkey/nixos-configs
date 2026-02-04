@@ -1,13 +1,13 @@
-{config, pkgs, lib, nixvim, ...}: {
+{ config, pkgs, lib, nixvim, ... }: {
   home.username = "cother";
   home.homeDirectory = "/home/cother";
   home.stateVersion = "25.11";
 
   imports = [
     nixvim.homeModules.nixvim
-    ./nixvim.nix
+    ./modules/nixvim.nix
   ];
-  
+
   home.packages = with pkgs; [
     wl-clipboard
     cliphist
