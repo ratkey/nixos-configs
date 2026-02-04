@@ -93,6 +93,17 @@
         };
       };
 
+
+      # Add smart-splits to your plugins
+      smart-splits = {
+        enable = true;
+        settings = {
+          # Optional: Prevent the cursor from looping around when you hit the edge
+          at_edge = "stop";
+        };
+      };
+
+
       lspsaga.enable = true;
       nvim-autopairs.enable = true;
       nvim-surround.enable = true;
@@ -102,6 +113,7 @@
       oil.enable = true;
     };
 
+    # Add these mappings to your keymaps list
     keymaps = [
       {
         mode = "n";
@@ -128,6 +140,49 @@
         mode = "n";
         key = "-";
         action = "<cmd>Oil<CR>";
+      }
+      # Resize with Alt+Arrows
+      {
+        mode = "n";
+        key = "<M-Up>";
+        action = "<cmd>lua require('smart-splits').resize_up()<CR>";
+      }
+      {
+        mode = "n";
+        key = "<M-Down>";
+        action = "<cmd>lua require('smart-splits').resize_down()<CR>";
+      }
+      {
+        mode = "n";
+        key = "<M-Left>";
+        action = "<cmd>lua require('smart-splits').resize_left()<CR>";
+      }
+      {
+        mode = "n";
+        key = "<M-Right>";
+        action = "<cmd>lua require('smart-splits').resize_right()<CR>";
+      }
+
+      # Move cursor with Alt+h/j/k/l
+      {
+        mode = "n";
+        key = "<M-h>";
+        action = "<cmd>lua require('smart-splits').move_cursor_left()<CR>";
+      }
+      {
+        mode = "n";
+        key = "<M-j>";
+        action = "<cmd>lua require('smart-splits').move_cursor_down()<CR>";
+      }
+      {
+        mode = "n";
+        key = "<M-k>";
+        action = "<cmd>lua require('smart-splits').move_cursor_up()<CR>";
+      }
+      {
+        mode = "n";
+        key = "<M-l>";
+        action = "<cmd>lua require('smart-splits').move_cursor_right()<CR>";
       }
     ];
   };

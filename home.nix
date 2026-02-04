@@ -6,6 +6,8 @@
   imports = [
     nixvim.homeModules.nixvim
     ./modules/nixvim.nix
+    ./modules/tmux.nix
+    ./modules/zellij.nix
   ];
 
   home.packages = with pkgs; [
@@ -58,57 +60,6 @@
       allow_images = true;
       image_size = 24;
     };
-  };
-  programs.tmux = {
-    enable = true;
-    baseIndex = 1;
-    escapeTime = 0;
-    keyMode = "vi";
-    mouse = true;
-    prefix = "M-s";
-    terminal = "screen-256color";
-    extraConfig = ''
-      # Vim-like pane navigation
-      bind h select-pane -L
-      bind j select-pane -D
-      bind k select-pane -U
-      bind l select-pane -R
-
-      # Vim-like pane resizing
-      bind -r H resize-pane -L 5
-      bind -r J resize-pane -D 5
-      bind -r K resize-pane -U 5
-      bind -r L resize-pane -R 5
-
-      # Split panes with | and -
-      bind | split-window -h -c "#{pane_current_path}"
-      bind - split-window -v -c "#{pane_current_path}"
-
-      # Reload config with prefix + r
-      bind r source-file ~/.config/tmux/tmux.conf \; display "Config reloaded!"
-
-      # Copy mode vim bindings
-      bind-key -T copy-mode-vi v send-keys -X begin-selection
-      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
-      bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
-
-      # Easier window navigation
-      bind -r C-h select-window -t :-
-      bind -r C-l select-window -t :+
-
-      # Status bar styling
-      set -g status-style bg=black,fg=white
-      set -g status-left "[#S] "
-      set -g status-right "%H:%M %d-%b-%y"
-      set -g window-status-current-style bg=blue,fg=black,bold
-      
-      # Pane border colors
-      set -g pane-border-style fg=colour238
-      set -g pane-active-border-style fg=colour39
-
-      # Enable focus events for vim
-      set -g focus-events on
-    '';
   };
   home.file.".config/hypr".source = ./config/hypr;
   home.file.".config/waybar".source = ./config/waybar;
