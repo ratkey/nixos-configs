@@ -1,4 +1,4 @@
-{...}:
+{config, pkgs, ...}:
 {
   programs.nixvim = {
     enable = true;
@@ -7,33 +7,59 @@
     defaultEditor = true;
     version.enableNixpkgsReleaseCheck = false;
     globals.mapleader = " ";
-    
-    settings = {
-      vim.opt = {
-        number = true;
-        relativenumber = true;
-        expandtab = true;
-	# set tabs to 2 spaces
-        tabstop = 2;
-        shiftwidth = 2;
-	spandtab = true;
-	shifttabstop = 2;
-	smartindent = true;
 
+    extraPackages = with pkgs; [
+    	nodePackages.prettier
+    ];
+    
+    opts = {
+        number = true;
         ignorecase = true;
         smartcase = true;
-        clipboard = "unnamedplus";
         cursorline = true;
         wrap = false;
-      };
+        clipboard = "unnamedplus";
+	      # set tabs to 2 spaces
+        expandtab = true;
+        tabstop = 2;
+        shiftwidth = 2;
+	      softtabstop = 2;
+	      smartindent = true;
     };
     
     colorschemes.gruvbox.enable = true;
+
+# This triggers the format on save
+    autoCmd = [
+      {
+        event = [ "BufWritePre" ];
+        pattern = [ "*" ];
+        callback = {
+          __raw = ''
+            function()
+              vim.lsp.buf.format({ async = false })
+            end
+          '';
+        };
+      }
+    ];
     
     plugins = {
       treesitter.enable = true;
       web-devicons.enable = true;
       telescope.enable = true;
+
+none-ls = {
+        enable = true;
+        sources.formatting = {
+          # This enables Prettier
+          prettier = {
+            enable = true;
+            disableTsServerFormatter = true; # Prevents conflicts with ts_ls
+          };
+        };
+      };
+
       lsp = {
         enable = true;
         servers = {
