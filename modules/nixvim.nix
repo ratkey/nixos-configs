@@ -113,7 +113,14 @@
       comment-nvim.enable = true;
       indent-blankline.enable = true;
       gitsigns.enable = true;
-      oil.enable = true;
+      oil = {
+        enable = true;
+        settings = {
+          view_options = {
+            show_hidden = true;
+          };
+        };
+      };
     };
 
     # Add these mappings to your keymaps list
