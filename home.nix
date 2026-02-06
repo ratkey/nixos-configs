@@ -19,6 +19,7 @@
     brightnessctl
     hyprpaper
     waybar
+    fastfetch
   ];
   programs.direnv = {
     enable = true;
