@@ -9,6 +9,7 @@
     ./modules/nixvim.nix
     ./modules/tmux.nix
     ./modules/zellij.nix
+    ./modules/wofi.nix
   ];
 
   home.packages = with pkgs; [
@@ -20,6 +21,10 @@
     hyprpaper
     waybar
     fastfetch
+    bluetui
+    blueman # The standard GTK Bluetooth manager (GUI)
+    bluez # Core Bluetooth utilities (includes bluetoothctl)
+    bluez-tools # Extra CLI tools
   ];
   programs.direnv = {
     enable = true;
@@ -37,6 +42,9 @@
       fi
       ssh-add ~/.ssh/id_ed25519 2>/dev/null
     '';
+    initExtra = ''
+      set -o vi
+    '';
   };
   programs.git = {
     enable = true;
@@ -45,25 +53,6 @@
       user.email = "cother@protonmail.com";
       init.defaultBranch = "main";
       core.editor = "nvim";
-    };
-  };
-  programs.wofi = {
-    enable = true;
-    settings = {
-      width = 400;
-      height = 300;
-      location = "center";
-      show = "drun";
-      prompt = "Search...";
-      filter_rate = 100;
-      allow_markup = true;
-      no_actions = true;
-      halign = "fill";
-      orientation = "vertical";
-      content_halign = "fill";
-      insensitive = true;
-      allow_images = true;
-      image_size = 24;
     };
   };
   home.file.".config/hypr".source = ./config/hypr;

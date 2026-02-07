@@ -77,6 +77,23 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true; # Enables features like battery percentage reporting
+      };
+    };
+  };
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = "25.11"; # Did you read the comment?
 }
