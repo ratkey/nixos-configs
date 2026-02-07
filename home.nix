@@ -25,6 +25,8 @@
     blueman # The standard GTK Bluetooth manager (GUI)
     bluez # Core Bluetooth utilities (includes bluetoothctl)
     bluez-tools # Extra CLI tools
+    grim # The screenshot tool
+    slurp # The region selector
   ];
   programs.direnv = {
     enable = true;
