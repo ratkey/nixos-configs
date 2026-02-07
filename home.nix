@@ -10,6 +10,8 @@
     ./modules/tmux.nix
     ./modules/zellij.nix
     ./modules/wofi.nix
+    ./modules/dunst.nix
+    ./modules/git.nix
   ];
 
   home.packages = with pkgs; [
@@ -27,6 +29,8 @@
     bluez-tools # Extra CLI tools
     grim # The screenshot tool
     slurp # The region selector
+    libnotify # Notification alerts
+    yaak # GUI api client
   ];
   programs.direnv = {
     enable = true;
@@ -47,15 +51,6 @@
     initExtra = ''
       set -o vi
     '';
-  };
-  programs.git = {
-    enable = true;
-    settings = {
-      user.name = "cother";
-      user.email = "cother@protonmail.com";
-      init.defaultBranch = "main";
-      core.editor = "nvim";
-    };
   };
   home.file.".config/hypr".source = ./config/hypr;
   home.file.".config/waybar".source = ./config/waybar;
