@@ -13,6 +13,7 @@
 
     settings = {
       # Essential Settings
+      shell = "fish"; # Ensure Kitty launches Fish
       confirm_os_window_close = 0; # Close window without asking
       enable_audio_bell = false; # Silence the bell
       update_check_interval = 0; # No updates (Nix manages this)

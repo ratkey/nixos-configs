@@ -34,7 +34,7 @@ To apply changes made to any file (`configuration.nix`, `home.nix`, or modules),
 sudo nixos-rebuild switch --flake .#nixos
 ```
 
-_Note: Since Home Manager is integrated as a NixOS module, this command updates both the system and the user environment._
+_Note: Since Home Manager is integrated as a NixOS module, this command updates both the system and the user environment. **The agent should never execute `sudo nixos-rebuild switch --flake .#nixos`; this command is reserved for the user.**_
 
 ### Update Dependencies
 
