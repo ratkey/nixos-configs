@@ -12,6 +12,7 @@
     ./modules/wofi.nix
     ./modules/dunst.nix
     ./modules/git.nix
+    ./modules/brave.nix
   ];
 
   home.packages = with pkgs; [
@@ -41,13 +42,20 @@
         exit 1
       fi
 
-      SELECTED=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -printf "%f\n" | sort | wofi --dmenu --prompt "Select Wallpaper")
+      SELECTED=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | sort | while read -r img; do
+        echo "img:$img:text:$(basename "$img")"
+      done | wofi --dmenu --prompt "Select Wallpaper" --style "$HOME/.config/wofi/wallpaper.css" --columns 4 --lines 4 --width 1000 --height 800 --allow-images -D image_size=150)
 
       if [ -n "$SELECTED" ]; then
-        FULL_PATH="$WALLPAPER_DIR/$SELECTED"
+        if [[ "$SELECTED" == img:* ]]; then
+            FULL_PATH=$(echo "$SELECTED" | cut -d: -f2)
+        else
+            FULL_PATH="$WALLPAPER_DIR/$SELECTED"
+        fi
+        
         hyprctl hyprpaper preload "$FULL_PATH"
         hyprctl hyprpaper wallpaper ",$FULL_PATH"
-        notify-send "Wallpaper" "Set to $SELECTED"
+        notify-send "Wallpaper" "Set to $(basename "$FULL_PATH")"
       fi
     '')
   ];
@@ -77,7 +85,8 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Adwaita-dark";
+      package = pkgs.gruvbox-dark-gtk;
+      name = "gruvbox-dark";
     };
     iconTheme = {
       name = "Adwaita";

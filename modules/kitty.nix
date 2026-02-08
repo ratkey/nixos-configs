@@ -19,7 +19,7 @@
 
       # Visuals
       background_opacity = "0.95"; # Slight transparency
-      window_padding_width = 10; # Breathing room for text
+      window_padding_width = 2; # Breathing room for text
       cursor_shape = "block";
 
       # Tab Bar (if you use tabs in Kitty, though Zellij is better)
