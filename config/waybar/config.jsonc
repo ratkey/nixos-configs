@@ -1,49 +1,59 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 30,
-  "modules-left": ["hyprland/workspaces", "hyprland/submap"],
+  "height": 32,
+  "spacing": 4,
+  "modules-left": ["hyprland/workspaces", "hyprland/submap", "tray"],
   "modules-center": ["clock"],
-  "modules-right": ["pulseaudio", "network", "battery"],
+  "modules-right": ["pulseaudio", "network", "cpu", "memory", "temperature", "battery"],
   
   "hyprland/workspaces": {
     "format": "{name}",
-    "format-icons": {
-      "1": "",
-      "2": "",
-      "3": "",
-      "4": "",
-      "5": ""
-    },
     "persistent-workspaces": {
       "*": 5
     }
   },
 
   "hyprland/submap": {
-    "format": "<span style=\"italic\">{}</span>"
+    "format": "<span style=\"italic\">MODE: {}</span>"
+  },
+
+  "tray": {
+    "spacing": 10
   },
 
   "clock": {
     "format": "{:%H:%M}",
-    "format-alt": "{:%A, %B %d, %Y (%H:%M)}"
+    "format-alt": "{:%Y-%m-%d}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
 
   "pulseaudio": {
     "scroll-step": 5,
-    "format": "{icon} {volume}%",
-    "format-muted": " {volume}%",
-    "format-icons": {
-      "default": ["", "", ""]
-    },
+    "format": "VOL: {volume}%",
+    "format-muted": "MUT",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
   },
 
   "network": {
-    "format-wifi": " {essid}",
-    "format-ethernet": " {ifname}",
-    "format-disconnected": "󰌙 Disconnected",
-    "tooltip-format": "{ipaddr}\n{ifname}"
+    "format-wifi": "WIFI: {essid}",
+    "format-ethernet": "ETH: {ifname}",
+    "format-disconnected": "NO NET",
+    "tooltip-format": "{ipaddr}"
+  },
+
+  "cpu": {
+    "format": "CPU: {usage}%",
+    "tooltip": false
+  },
+
+  "memory": {
+    "format": "RAM: {}%"
+  },
+
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "TMP: {temperatureC}°C"
   },
 
   "battery": {
@@ -52,10 +62,9 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon} {capacity}%",
-    "format-charging": " {capacity}%",
-    "format-plugged": " {capacity}%",
-    "format-alt": "{time} {icon}",
-    "format-icons": ["", "", "", "", ""]
+    "format": "BAT: {capacity}%",
+    "format-charging": "CHG: {capacity}%",
+    "format-plugged": "PLG: {capacity}%",
+    "format-alt": "{time}"
   }
 }
