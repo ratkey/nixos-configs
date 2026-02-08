@@ -29,6 +29,7 @@
 
     extraConfig = ''
       # --- Global Options ---
+      set-option -g default-shell ${pkgs.fish}/bin/fish
       set-option -g status-position top
       set -g default-terminal "tmux-256color"
       set -ga terminal-overrides ",xterm-256color:Tc"

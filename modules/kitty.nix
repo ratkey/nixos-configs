@@ -4,7 +4,7 @@
     enable = true;
 
     # Pick a theme (Gruvbox to match your Neovim/Zellij)
-    theme = "Gruvbox Dark";
+    themeFile = "gruvbox-dark-hard";
 
     font = {
       name = "JetBrainsMono Nerd Font";

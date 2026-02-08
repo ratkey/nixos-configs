@@ -87,6 +87,9 @@
     };
   };
 
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;

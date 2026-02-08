@@ -14,6 +14,8 @@
     ./modules/dunst.nix
     ./modules/git.nix
     ./modules/brave.nix
+    ./modules/btop.nix
+    ./modules/nautilus.nix
   ];
 
   home.packages = with pkgs; [
@@ -33,6 +35,7 @@
     slurp # The region selector
     libnotify # Notification alerts
     yaak # GUI api client
+    gemini-cli
 
     (pkgs.writeShellScriptBin "wallpaper-selector" ''
       #!/usr/bin/env bash
