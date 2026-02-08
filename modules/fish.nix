@@ -11,4 +11,9 @@
       fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
     };
   };
+
+  programs.oh-my-posh = {
+    enable = true;
+    useTheme = "gruvbox";
+  };
 }
