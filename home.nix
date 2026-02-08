@@ -31,6 +31,25 @@
     slurp # The region selector
     libnotify # Notification alerts
     yaak # GUI api client
+
+    (pkgs.writeShellScriptBin "wallpaper-selector" ''
+      #!/usr/bin/env bash
+      WALLPAPER_DIR=$HOME/walls
+      if [ ! -d "$WALLPAPER_DIR" ]; then
+        mkdir -p "$WALLPAPER_DIR"
+        notify-send "Wallpaper Selector" "Created directory $WALLPAPER_DIR. Put your wallpapers there."
+        exit 1
+      fi
+
+      SELECTED=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -printf "%f\n" | sort | wofi --dmenu --prompt "Select Wallpaper")
+
+      if [ -n "$SELECTED" ]; then
+        FULL_PATH="$WALLPAPER_DIR/$SELECTED"
+        hyprctl hyprpaper preload "$FULL_PATH"
+        hyprctl hyprpaper wallpaper ",$FULL_PATH"
+        notify-send "Wallpaper" "Set to $SELECTED"
+      fi
+    '')
   ];
   programs.direnv = {
     enable = true;
