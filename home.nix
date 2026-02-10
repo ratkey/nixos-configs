@@ -62,6 +62,22 @@
         notify-send "Wallpaper" "Set to $(basename "$FULL_PATH")"
       fi
     '')
+    (pkgs.writeShellScriptBin "wofi-power" ''
+      #!/usr/bin/env bash
+      entries="Suspend\nReboot\nShutdown"
+      selected=$(echo -e "$entries" | wofi --dmenu --cache-file /dev/null --prompt "Power Menu" --style "$HOME/.config/wofi/style.css" --width 200 --height 200)
+      case $selected in
+        Suspend)
+          systemctl suspend
+          ;;
+        Reboot)
+          systemctl reboot
+          ;;
+        Shutdown)
+          systemctl poweroff
+          ;;
+      esac
+    '')
   ];
   programs.direnv = {
     enable = true;

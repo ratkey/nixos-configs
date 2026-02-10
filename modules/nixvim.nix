@@ -16,6 +16,8 @@
 
       ripgrep
       fd
+      typescript
+      astro-language-server
     ];
 
     opts = {
@@ -36,52 +38,37 @@
 
     colorschemes.gruvbox.enable = true;
 
-    # 2. Updated AutoCmd to prevent "ts_ls" from fighting Prettier
-    autoCmd = [
-      {
-        event = [ "BufWritePre" ];
-        pattern = [ "*" ];
-        callback = {
-          __raw = ''
-            function(args)
-              vim.lsp.buf.format({
-                async = false,
-                bufnr = args.buf,
-                filter = function(client)
-                  -- Prevent ts_ls from formatting (let Prettier do it)
-                  return client.name ~= "ts_ls"
-                end
-              })
-            end
-          '';
-        };
-      }
-    ];
-
     plugins = {
       treesitter.enable = true;
       web-devicons.enable = true;
       telescope.enable = true;
 
-      none-ls = {
+      conform-nvim = {
         enable = true;
-        sources.formatting = {
-          # JS/TS/HTML/CSS
-          prettier = {
-            enable = true;
-            disableTsServerFormatter = true;
+        settings = {
+          formatters_by_ft = {
+            javascript = [ "prettier" ];
+            typescript = [ "prettier" ];
+            javascriptreact = [ "prettier" ];
+            typescriptreact = [ "prettier" ];
+            css = [ "prettier" ];
+            html = [ "prettier" ];
+            json = [ "prettier" ];
+            yaml = [ "prettier" ];
+            markdown = [ "prettier" ];
+            astro = [ "prettier" ];
+            python = [ "black" ];
+            nix = [ "nixpkgs_fmt" ];
           };
-          # Python
-          black = {
-            enable = true;
-            settings = ''
-              {
-                extra_args = { "--fast" },
-              }
-            '';
+          formatters = {
+            black = {
+              prepend_args = [ "--fast" ];
+            };
           };
-          # Nix
-          nixpkgs_fmt.enable = true;
+          format_on_save = {
+            lsp_fallback = true;
+            timeout_ms = 500;
+          };
         };
       };
 
@@ -93,6 +80,14 @@
           pyright.enable = true;
           ts_ls.enable = true;
           css_ls.enable = true;
+          astro_ls = {
+            enable = true;
+            settings = {
+              typescript = {
+                # tsdk = "${pkgs.typescript}/lib/node_modules/typescript/lib";
+              };
+            };
+          };
         };
       };
 
@@ -127,7 +122,21 @@
     keymaps = [
       {
         mode = "n";
-        key = "<leader>ff";
+        key = "gd";
+        action = "<cmd>lua vim.lsp.buf.definition()<CR>";
+        options.noremap = true;
+        options.silent = true;
+      }
+      {
+        mode = "n";
+        key = "K";
+        action = "<cmd>lua vim.lsp.buf.hover()<CR>";
+        options.noremap = true;
+        options.silent = true;
+      }
+      {
+        mode = "n";
+        key = "<leader><leader>";
         action = "<cmd>Telescope find_files<CR>";
         options.noremap = true;
         options.silent = true;
