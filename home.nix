@@ -1,13 +1,12 @@
-{ config, pkgs, lib, nixvim, ... }: {
+{ config, pkgs, lib, ... }: {
   home.username = "cother";
   home.homeDirectory = "/home/cother";
   home.stateVersion = "25.11";
 
   imports = [
-    nixvim.homeModules.nixvim
     ./modules/fish.nix
     ./modules/kitty.nix
-    ./modules/nixvim.nix
+    ./modules/neovim.nix
     ./modules/tmux.nix
     ./modules/zellij.nix
     ./modules/wofi.nix

@@ -4,11 +4,11 @@ This directory contains a **NixOS configuration** managed with **Nix Flakes** an
 
 ## Project Structure
 
-- **`flake.nix`**: The entry point. Defines inputs (nixpkgs, home-manager, nixvim) and the system output (`nixosConfigurations.nixos`).
+- **`flake.nix`**: The entry point. Defines inputs (nixpkgs, home-manager) and the system output (`nixosConfigurations.nixos`).
 - **`configuration.nix`**: System-wide configuration (bootloader, networking, hardware, system packages, global services like Pipewire and Bluetooth).
 - **`home.nix`**: User-specific configuration managed by Home Manager. Handles dotfiles, user packages, and shell configuration.
 - **`modules/`**: Contains modularized configurations for specific tools imported by `home.nix`:
-  - `dunst.nix`, `git.nix`, `kitty.nix`, `nixvim.nix`, `tmux.nix`, `wofi.nix`, `zellij.nix`.
+  - `dunst.nix`, `git.nix`, `kitty.nix`, `neovim.nix`, `tmux.nix`, `wofi.nix`, `zellij.nix`.
 - **`config/`**: Directory containing raw configuration files (e.g., Hyprland, Waybar) that are symlinked/managed by Home Manager.
   - `config/hypr/` -> `~/.config/hypr`
   - `config/waybar/` -> `~/.config/waybar`
@@ -18,7 +18,7 @@ This directory contains a **NixOS configuration** managed with **Nix Flakes** an
 - **System:** NixOS 25.11 (`x86_64-linux`)
 - **Desktop Environment:** Hyprland (Wayland compositor)
 - **Bar:** Waybar
-- **Editor:** Neovim (via `nixvim` flake input)
+- **Editor:** Neovim (configured via `neovim.nix` and LazyVim)
 - **Shell:** Bash (with `vi` mode and custom aliases)
 - **Audio:** Pipewire (PulseAudio & ALSA compatibility enabled)
 - **Locale:** `en_US.UTF-8` (System), `es_MX.UTF-8` (Formats), `America/Mexico_City` (Timezone)
