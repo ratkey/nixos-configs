@@ -9,7 +9,7 @@
     ./modules/neovim.nix
     ./modules/tmux.nix
     ./modules/zellij.nix
-    ./modules/wofi.nix
+    ./modules/rofi.nix
     ./modules/dunst.nix
     ./modules/git.nix
     ./modules/brave.nix
@@ -46,25 +46,21 @@
       fi
 
       SELECTED=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | sort | while read -r img; do
-        echo "img:$img:text:$(basename "$img")"
-      done | wofi --dmenu --prompt "Select Wallpaper" --style "$HOME/.config/wofi/wallpaper.css" --columns 4 --lines 4 --width 1000 --height 800 --allow-images -D image_size=150)
+        echo -en "$(basename "$img")\0icon\x1f$img\n"
+      done | rofi -dmenu -p "Select Wallpaper" -show-icons)
 
       if [ -n "$SELECTED" ]; then
-        if [[ "$SELECTED" == img:* ]]; then
-            FULL_PATH=$(echo "$SELECTED" | cut -d: -f2)
-        else
-            FULL_PATH="$WALLPAPER_DIR/$SELECTED"
-        fi
+        FULL_PATH="$WALLPAPER_DIR/$SELECTED"
         
         hyprctl hyprpaper preload "$FULL_PATH"
         hyprctl hyprpaper wallpaper ",$FULL_PATH"
         notify-send "Wallpaper" "Set to $(basename "$FULL_PATH")"
       fi
     '')
-    (pkgs.writeShellScriptBin "wofi-power" ''
+    (pkgs.writeShellScriptBin "rofi-power" ''
       #!/usr/bin/env bash
       entries="Suspend\nReboot\nShutdown"
-      selected=$(echo -e "$entries" | wofi --dmenu --cache-file /dev/null --prompt "Power Menu" --style "$HOME/.config/wofi/style.css" --width 200 --height 200)
+      selected=$(echo -e "$entries" | rofi -dmenu -p "Power Menu")
       case $selected in
         Suspend)
           systemctl suspend
