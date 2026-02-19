@@ -15,6 +15,7 @@
     ./modules/brave.nix
     ./modules/btop.nix
     ./modules/nautilus.nix
+    ./modules/hyprlock.nix
   ];
 
   home.packages = with pkgs; [
