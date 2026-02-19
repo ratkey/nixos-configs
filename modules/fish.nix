@@ -30,6 +30,8 @@
     '';
     shellAliases = {
       btw = "echo I use nixos, btw";
+      gs = "git status";
+      cls = "clear";
       fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
     };
   };

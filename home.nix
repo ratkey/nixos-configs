@@ -17,6 +17,7 @@
     ./modules/nautilus.nix
     ./modules/hyprlock.nix
     ./modules/hypridle.nix
+    ./modules/cursor.nix
   ];
 
   home.packages = with pkgs; [
@@ -109,6 +110,8 @@
   programs.bash = {
     enable = true;
     shellAliases = {
+      gs = "git status";
+      cls = "clear";
       btw = "echo I use nixos, btw";
       fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
     };
