@@ -23,7 +23,7 @@
       input-field = [
         {
           size = "250, 60";
-          position = "0, -20";
+          position = "0, 100";
           monitor = "";
           dots_center = true;
           fade_on_empty = false;
@@ -47,7 +47,7 @@
           valign = "top";
         }
         {
-          text = "Hi there, $USER";
+          text = ".::$USER::.";
           color = "rgba(235, 219, 178, 1.0)";
           font_size = 25;
           font_family = "JetBrainsMono Nerd Font";
