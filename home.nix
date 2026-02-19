@@ -35,26 +35,52 @@
     libnotify # Notification alerts
     yaak # GUI api client
     gemini-cli
-
     (pkgs.writeShellScriptBin "wallpaper-selector" ''
       #!/usr/bin/env bash
-      WALLPAPER_DIR=$HOME/walls
+      WALLPAPER_DIR="$HOME/walls"
+      CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"
+
       if [ ! -d "$WALLPAPER_DIR" ]; then
         mkdir -p "$WALLPAPER_DIR"
         notify-send "Wallpaper Selector" "Created directory $WALLPAPER_DIR. Put your wallpapers there."
         exit 1
       fi
 
-      SELECTED=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | sort | while read -r img; do
+      # Select wallpaper using rofi with dmenu mode
+      # Exclude existing 'wall.*' files from the list to avoid duplication/confusion
+      SELECTED=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -not -name "wall.*" | sort | while read -r img; do
         echo -en "$(basename "$img")\0icon\x1f$img\n"
-      done | rofi -dmenu -p "Select Wallpaper" -show-icons)
+      done | rofi -dmenu -p "Select Wallpaper" -show-icons -theme-str 'window { width: 60%; } listview { columns: 4; lines: 3; spacing: 20px; } element { orientation: vertical; padding: 10px; } element-icon { size: 120px; horizontal-align: 0.5; } element-text { horizontal-align: 0.5; }')
 
       if [ -n "$SELECTED" ]; then
-        FULL_PATH="$WALLPAPER_DIR/$SELECTED"
+        # Find the full path of the selected file
+        SOURCE_PATH=$(find "$WALLPAPER_DIR" -name "$SELECTED" -print -quit)
+
+        if [ -z "$SOURCE_PATH" ]; then
+            notify-send "Error" "Could not find source image for $SELECTED"
+            exit 1
+        fi
+
+        # Get extension
+        EXT="''${SELECTED##*.}"
+        TARGET="$WALLPAPER_DIR/wall.$EXT"
+
+        # Remove old wall files
+        rm -f "$WALLPAPER_DIR"/wall.*
+
+        # Copy new wallpaper to standard location
+        cp "$SOURCE_PATH" "$TARGET"
         
-        hyprctl hyprpaper preload "$FULL_PATH"
-        hyprctl hyprpaper wallpaper ",$FULL_PATH"
-        notify-send "Wallpaper" "Set to $(basename "$FULL_PATH")"
+        # Write config pointing to the standard 'wall' file
+        echo "preload = $TARGET" > "$CONFIG_FILE"
+        echo "wallpaper = ,$TARGET" >> "$CONFIG_FILE"
+
+        # Restart hyprpaper
+        pkill hyprpaper
+        sleep 0.5 
+        hyprpaper &
+
+        notify-send "Wallpaper" "Set to $SELECTED"
       fi
     '')
     (pkgs.writeShellScriptBin "rofi-power" ''
@@ -94,7 +120,11 @@
       set -o vi
     '';
   };
-  home.file.".config/hypr".source = ./config/hypr;
+  home.file.".config/hypr/hyprland.conf".source = ./config/hypr/hyprland.conf;
+  home.file.".config/hypr/hyprpaper.conf".text = ''
+    preload = /home/cother/walls/wall.jpg
+    wallpaper = ,/home/cother/walls/wall.jpg
+  '';
   home.file.".config/waybar".source = ./config/waybar;
 
   dconf.settings = {

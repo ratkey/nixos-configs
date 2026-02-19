@@ -8,7 +8,7 @@ This directory contains a **NixOS configuration** managed with **Nix Flakes** an
 - **`configuration.nix`**: System-wide configuration (bootloader, networking, hardware, system packages, global services like Pipewire and Bluetooth).
 - **`home.nix`**: User-specific configuration managed by Home Manager. Handles dotfiles, user packages, and shell configuration.
 - **`modules/`**: Contains modularized configurations for specific tools imported by `home.nix`:
-  - `dunst.nix`, `git.nix`, `kitty.nix`, `neovim.nix`, `tmux.nix`, `wofi.nix`, `zellij.nix`.
+  - `brave.nix`, `btop.nix`, `dunst.nix`, `fish.nix`, `git.nix`, `kitty.nix`, `nautilus.nix`, `neovim.nix`, `rofi.nix`, `tmux.nix`, `zellij.nix`.
 - **`config/`**: Directory containing raw configuration files (e.g., Hyprland, Waybar) that are symlinked/managed by Home Manager.
   - `config/hypr/` -> `~/.config/hypr`
   - `config/waybar/` -> `~/.config/waybar`
