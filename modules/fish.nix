@@ -1,7 +1,17 @@
-{ pkgs, ... }:
+{ ... }:
+
 {
   programs.fish = {
     enable = true;
+    shellAliases = {
+      btw = "echo I use nixos, btw";
+      gs = "git status";
+      ga = "git add .";
+      gcm = "git commit -m";
+      cls = "clear";
+      nrs = "sudo nixos-rebuild switch";
+      fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
+    };
     interactiveShellInit = ''
       set fish_greeting # Disable greeting
       fish_vi_key_bindings
@@ -28,14 +38,6 @@
         echo -n " "
       end
     '';
-    shellAliases = {
-      btw = "echo I use nixos, btw";
-      gs = "git status";
-      ga = "git add";
-      gcm = "git commit -m";
-      cls = "clear";
-      fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
-    };
   };
 
   programs.oh-my-posh = {

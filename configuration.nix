@@ -1,6 +1,4 @@
-{ config, pkgs, ... }:
-
-{
+{ pkgs, ... }: {
   imports =
     [
       # Include the results of the hardware scan.
@@ -102,5 +100,5 @@
   hardware.opentabletdriver.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }

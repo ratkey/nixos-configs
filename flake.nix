@@ -1,5 +1,5 @@
 {
-  description = "NixOS from Scratch";
+  description = "NixOS cother system";
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-25.11";
     home-manager = {
@@ -8,7 +8,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }: {
+  outputs = { nixpkgs, home-manager, ... }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -18,7 +18,6 @@
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            extraSpecialArgs = { };
             users.cother = ./home.nix;
             backupFileExtension = "backup";
           };
