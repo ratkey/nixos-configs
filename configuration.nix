@@ -1,14 +1,10 @@
 { pkgs, ... }: {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
-  # Bootloader.
-  # boot.loader.systemd-boot.enable = true;
+  # --- Bootloader Configuration ---
   boot.loader.efi.canTouchEfiVariables = true;
-
   boot.loader.grub = {
     enable = true;
     device = "nodev";
@@ -16,14 +12,12 @@
     useOSProber = true;
   };
 
+  # --- Networking ---
   networking.hostName = "nixos";
-  # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
+  # --- Localization & Timezone ---
   time.timeZone = "America/Mexico_City";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -38,17 +32,16 @@
     LC_TIME = "es_MX.UTF-8";
   };
 
-  # Configure keymap in X11
+  # --- Keymaps (Console & X11) ---
+  console.keyMap = "la-latin1";
   services.xserver.xkb = {
     layout = "latam";
     variant = "";
   };
+
+  # --- User Configuration ---
   services.getty.autologinUser = "cother";
-
-  # Configure console keymap
-  console.keyMap = "la-latin1";
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  
   users.users.cother = {
     isNormalUser = true;
     description = "cother";
@@ -56,16 +49,14 @@
     packages = with pkgs; [ ];
   };
 
-  # Allow unfree packages
+  # --- System Packages & Settings ---
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget
-    brave
-    firefox
   ];
 
+  # --- Desktop Environment (Hyprland) ---
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -73,23 +64,32 @@
 
   programs.hyprlock.enable = true;
 
+  # --- Fonts ---
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
 
+  # --- Hardware Support ---
+  # Bluetooth
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
     settings = {
       General = {
-        Experimental = true; # Enables features like battery percentage reporting
+        Experimental = true; # Enables battery percentage reporting
       };
     };
   };
 
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
+  # Graphics Tablet
+  hardware.opentabletdriver.enable = true;
 
+  # --- Services ---
+  # File Management Services
+  services.gvfs.enable = true;    # Mount, trash, and other functionality
+  services.tumbler.enable = true; # Thumbnail support for images
+
+  # Audio (Pipewire)
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -97,8 +97,12 @@
     pulse.enable = true;
   };
 
-  hardware.opentabletdriver.enable = true;
-
+  # --- Nix Configuration ---
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
   system.stateVersion = "25.11";
 }

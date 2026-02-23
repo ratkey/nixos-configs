@@ -41,6 +41,7 @@
     yaak # GUI api client
     gemini-cli
     krita
+    firefox
   ];
   programs.direnv = {
     enable = true;
