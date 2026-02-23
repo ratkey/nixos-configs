@@ -31,6 +31,7 @@
     brightnessctl
     hyprpaper
     waybar
+    quickshell
     fastfetch
     bluetui
     blueman # The standard GTK Bluetooth manager (GUI)
@@ -48,6 +49,7 @@
     enable = true;
     nix-direnv.enable = true;
   };
+  home.file.".config/quickshell/shell.qml".source = ./config/quickshell/shell.qml;
   home.file.".config/hypr/hyprland.conf".source = ./config/hypr/hyprland.conf;
   home.file.".config/hypr/hyprpaper.conf".text = ''
     preload = /home/cother/walls/wall.jpg
