@@ -38,6 +38,7 @@
     libnotify # Notification alerts
     yaak # GUI api client
     gemini-cli
+    krita
     (pkgs.writeShellScriptBin "wallpaper-selector" ''
       #!/usr/bin/env bash
       WALLPAPER_DIR="$HOME/walls"

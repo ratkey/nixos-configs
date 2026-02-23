@@ -31,6 +31,8 @@
     shellAliases = {
       btw = "echo I use nixos, btw";
       gs = "git status";
+      ga = "git add";
+      gcm = "git commit -m";
       cls = "clear";
       fix-brave = "rm -rf ~/.config/BraveSoftware/Brave-Browser/Singleton* && brave &";
     };

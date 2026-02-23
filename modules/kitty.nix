@@ -19,7 +19,7 @@
       update_check_interval = 0; # No updates (Nix manages this)
 
       # Visuals
-      background_opacity = "0.95"; # Slight transparency
+      background_opacity = "0.70"; # Slight transparency
       window_padding_width = 2; # Breathing room for text
       cursor_shape = "block";
 
