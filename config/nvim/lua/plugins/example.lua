@@ -82,6 +82,8 @@ return {
     opts = {
       ---@type lspconfig.options
       servers = {
+        html = {},
+        vtsls = {},
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
       },
@@ -148,6 +150,7 @@ return {
       ensure_installed = {
         "bash",
         "html",
+        "css",
         "javascript",
         "json",
         "lua",

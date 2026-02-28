@@ -44,6 +44,8 @@
     gemini-cli
     krita
     firefox
+    azahar
+    localsend
   ];
   programs.direnv = {
     enable = true;
