@@ -47,6 +47,7 @@
     firefox # Browser
     azahar # Nintendo 3DS emulator
     localsend # GUI for sharing files acrross network
+    yazi # TUI file manager
   ];
   programs.direnv = {
     enable = true;

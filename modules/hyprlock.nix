@@ -23,7 +23,7 @@
       input-field = [
         {
           size = "250, 60";
-          position = "0, 100";
+          position = "0, -120";
           monitor = "";
           dots_center = true;
           fade_on_empty = false;
