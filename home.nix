@@ -34,6 +34,8 @@
     vscode
     brightnessctl
     swww
+    obs-studio
+    vlc
     bluetui
     blueman # The standard GTK Bluetooth manager (GUI)
     bluez # Core Bluetooth utilities (includes bluetoothctl)

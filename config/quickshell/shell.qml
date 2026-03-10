@@ -30,8 +30,6 @@ ShellRoot {
     property bool wallpaperPanelVisible: false
     property string wallpaperDir: "/home/cother/walls"
     property string lastToggleValue: ""
-    property int selectedWallpaperIndex: 0
-    property int wallpaperColumns: 3
 
     readonly property string fontName: "JetBrainsMono Nerd Font"
 
@@ -403,55 +401,6 @@ ShellRoot {
         implicitWidth: 520
         color: Qt.rgba(40/255, 40/255, 40/255, 0.50)
 
-        // Reset selection when panel opens
-        onVisibleChanged: {
-            if (visible) {
-                root.selectedWallpaperIndex = 0
-                keyHandler.forceActiveFocus()
-            }
-        }
-
-        // Keyboard handler
-        Item {
-            id: keyHandler
-            focus: true
-            anchors.fill: parent
-
-            Keys.onPressed: (event) => {
-                let cols = root.wallpaperColumns
-                let total = root.wallpaperList.length
-                if (total === 0) return
-
-                if (event.key === Qt.Key_Escape || event.key === Qt.Key_Q) {
-                    root.wallpaperPanelVisible = false
-                    event.accepted = true
-                } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                    if (root.selectedWallpaperIndex < total) {
-                        wallpaperSetProc.wallpaperPath = root.wallpaperList[root.selectedWallpaperIndex]
-                        wallpaperSetProc.running = true
-                        root.wallpaperPanelVisible = false
-                    }
-                    event.accepted = true
-                } else if (event.key === Qt.Key_H || event.key === Qt.Key_Left) {
-                    if (root.selectedWallpaperIndex > 0)
-                        root.selectedWallpaperIndex--
-                    event.accepted = true
-                } else if (event.key === Qt.Key_L || event.key === Qt.Key_Right) {
-                    if (root.selectedWallpaperIndex < total - 1)
-                        root.selectedWallpaperIndex++
-                    event.accepted = true
-                } else if (event.key === Qt.Key_K || event.key === Qt.Key_Up) {
-                    if (root.selectedWallpaperIndex >= cols)
-                        root.selectedWallpaperIndex -= cols
-                    event.accepted = true
-                } else if (event.key === Qt.Key_J || event.key === Qt.Key_Down) {
-                    if (root.selectedWallpaperIndex + cols < total)
-                        root.selectedWallpaperIndex += cols
-                    event.accepted = true
-                }
-            }
-        }
-
         Rectangle {
             anchors.fill: parent
             color: "transparent"
@@ -491,16 +440,6 @@ ShellRoot {
                         }
                     }
 
-                    // Right side: keybind hints
-                    Text {
-                        anchors.right: parent.right
-                        anchors.rightMargin: 14
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: "hjkl:nav  ⏎:select  q:close"
-                        font.family: root.fontName
-                        font.pixelSize: 9
-                        color: root.gray
-                    }
                 }
 
                 // Wallpaper Grid
@@ -512,30 +451,10 @@ ShellRoot {
                     clip: true
                     boundsBehavior: Flickable.StopAtBounds
 
-                    // Auto-scroll to keep selection visible
-                    function ensureVisible(index) {
-                        let cols = root.wallpaperColumns
-                        let row = Math.floor(index / cols)
-                        let itemHeight = 120
-                        let itemY = row * itemHeight
-                        if (itemY < contentY) {
-                            contentY = itemY
-                        } else if (itemY + itemHeight > contentY + height) {
-                            contentY = itemY + itemHeight - height
-                        }
-                    }
-
-                    Connections {
-                        target: root
-                        function onSelectedWallpaperIndexChanged() {
-                            wallpaperFlickable.ensureVisible(root.selectedWallpaperIndex)
-                        }
-                    }
-
                     Grid {
                         id: wallpaperGrid
                         width: parent.width
-                        columns: root.wallpaperColumns
+                        columns: 3
                         spacing: 12
 
                         Repeater {
@@ -543,27 +462,13 @@ ShellRoot {
 
                             Rectangle {
                                 id: wallpaperItem
-                                property int itemIndex: index
-                                property bool isSelected: root.selectedWallpaperIndex === index
                                 width: 156
                                 height: 108
                                 radius: 8
                                 color: root.bg
-                                border.color: isSelected ? root.yellow : (wallItemArea.containsMouse ? root.aqua : root.gray)
-                                border.width: isSelected ? 3 : (wallItemArea.containsMouse ? 2 : 1)
+                                border.color: wallItemArea.containsMouse ? root.aqua : root.gray
+                                border.width: wallItemArea.containsMouse ? 2 : 1
                                 clip: true
-
-                                // Selection glow effect
-                                Rectangle {
-                                    visible: parent.isSelected
-                                    anchors.fill: parent
-                                    anchors.margins: -4
-                                    radius: 12
-                                    color: "transparent"
-                                    border.color: root.yellow
-                                    border.width: 1
-                                    opacity: 0.5
-                                }
 
                                 Image {
                                     anchors.fill: parent
@@ -589,8 +494,7 @@ ShellRoot {
                                         text: modelData.split("/").pop().replace(/\.[^/.]+$/, "")
                                         font.family: root.fontName
                                         font.pixelSize: 11
-                                        font.bold: wallpaperItem.isSelected
-                                        color: wallpaperItem.isSelected ? root.yellow : root.fg
+                                        color: root.fg
                                         elide: Text.ElideMiddle
                                         horizontalAlignment: Text.AlignHCenter
                                     }
@@ -602,12 +506,10 @@ ShellRoot {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
-                                        root.selectedWallpaperIndex = index
                                         wallpaperSetProc.wallpaperPath = modelData
                                         wallpaperSetProc.running = true
                                         root.wallpaperPanelVisible = false
                                     }
-                                    onEntered: root.selectedWallpaperIndex = index
                                 }
                             }
                         }
