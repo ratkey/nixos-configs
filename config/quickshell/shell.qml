@@ -210,6 +210,7 @@ ShellRoot {
 
                     // CPU
                     Column {
+                        width: 32
                         spacing: 2
                         Text {
                             text: "󰍛"
@@ -229,6 +230,7 @@ ShellRoot {
 
                     // RAM
                     Column {
+                        width: 32
                         spacing: 2
                         Text {
                             text: "󰘚"
@@ -248,6 +250,7 @@ ShellRoot {
 
                     // Wi-Fi
                     Column {
+                        width: 32
                         spacing: 2
                         Text {
                             text: root.wifiText === "Disconnected" ? "󰖪" : "󰖩"
@@ -260,6 +263,7 @@ ShellRoot {
 
                     // Volume
                     Column {
+                        width: 32
                         spacing: 2
                         Text {
                             text: root.volumeText === "0%" ? "󰖁" : "󰕾"
@@ -279,6 +283,7 @@ ShellRoot {
 
                     // Battery
                     Column {
+                        width: 32
                         property int batLevel: parseInt(root.batteryText.replace(/[^0-9]/g, '')) || 0
                         property bool isCharging: root.batteryText.includes("󰂄")
                         spacing: 2
