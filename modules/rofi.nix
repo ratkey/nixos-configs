@@ -120,7 +120,6 @@
     [ (writeShellScriptBin "wallpaper-selector" ''
       #!/usr/bin/env bash
       WALLPAPER_DIR="$HOME/walls"
-      CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"
 
       if [ ! -d "$WALLPAPER_DIR" ]; then
         mkdir -p "$WALLPAPER_DIR"
@@ -152,15 +151,9 @@
 
         # Copy new wallpaper to standard location
         cp "$SOURCE_PATH" "$TARGET"
-        
-        # Write config pointing to the standard 'wall' file
-        echo "preload = $TARGET" > "$CONFIG_FILE"
-        echo "wallpaper = ,$TARGET" >> "$CONFIG_FILE"
 
-        # Restart hyprpaper
-        pkill hyprpaper
-        sleep 0.5 
-        hyprpaper &
+        # Set wallpaper with swww
+        swww img "$TARGET" --transition-type grow --transition-pos center
 
         notify-send "Wallpaper" "Set to $SELECTED"
       fi

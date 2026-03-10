@@ -33,7 +33,7 @@
     pamixer
     vscode
     brightnessctl
-    hyprpaper
+    swww
     bluetui
     blueman # The standard GTK Bluetooth manager (GUI)
     bluez # Core Bluetooth utilities (includes bluetoothctl)
@@ -55,10 +55,6 @@
     enable = true;
     nix-direnv.enable = true;
   };
-  home.file.".config/hypr/hyprpaper.conf".text = ''
-    preload = /home/cother/walls/wall.jpg
-    wallpaper = ,/home/cother/walls/wall.jpg
-  '';
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";

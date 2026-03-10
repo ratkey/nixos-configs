@@ -20,7 +20,8 @@
         "wl-paste --type image --watch cliphist store"
         "$terminal"
         "qs &"
-        "hyprpaper"
+        "swww-daemon &"
+        "swww img /home/cother/walls/wall.jpg"
         "hypridle &"
         "hyprlock"
       ];
