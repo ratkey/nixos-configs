@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   programs.hyprlock = {
-    enable = true;
+    enable = false;
     settings = {
       general = {
         no_fade_in = false;

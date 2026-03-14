@@ -140,8 +140,20 @@ ShellRoot {
     }
     Timer { interval: 100; running: true; repeat: true; onTriggered: toggleWatchProc.running = true }
 
+    // Initialize lastToggleValue from file to prevent false toggle on startup
+    Process {
+        id: initToggleProc
+        command: ["cat", "/tmp/qs-wallpaper-toggle"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                root.lastToggleValue = this.text.trim()
+            }
+        }
+    }
+
     // Run everything once on launch
     Component.onCompleted: {
+        initToggleProc.running = true
         cpuProc.running = true
         ramProc.running = true
         volProc.running = true

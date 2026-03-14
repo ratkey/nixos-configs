@@ -23,7 +23,7 @@
         "swww-daemon &"
         "waypaper --restore"
         "hypridle &"
-        "hyprlock"
+        # "hyprlock"
       ];
 
       # Environment variables
