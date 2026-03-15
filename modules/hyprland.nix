@@ -203,7 +203,12 @@
       ];
 
       # Window rules
-      windowrulev2 = "suppressevent maximize, class:.*";
+      windowrulev2 = [
+        # Godot: maximize main editor, float popups/dialogs
+        "maximize, class:^(Godot)$, title:^(Godot)"
+        "float, class:^(Godot)$, title:^(?!Godot)"
+        "suppressevent maximize, class:.*"
+      ];
 
       # Layer rules
       layerrule = [
