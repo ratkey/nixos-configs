@@ -1,4 +1,4 @@
-{ config, pkgs, lib ... }: {
+{ config, pkgs, lib, ... }: {
   home.username = "cother";
   home.homeDirectory = "/home/cother";
   home.stateVersion = "25.11";
@@ -37,6 +37,7 @@
     obs-studio
     vlc
     bluetui
+    godot
     blueman # The standard GTK Bluetooth manager (GUI)
     bluez # Core Bluetooth utilities (includes bluetoothctl)
     bluez-tools # Extra CLI tools

@@ -49,11 +49,11 @@
       bind k select-pane -U
       bind l select-pane -R
 
-      # Alt-arrow keys to switch panes (No prefix)
-      bind -n M-Left select-pane -L
-      bind -n M-Right select-pane -R
-      bind -n M-Up select-pane -U
-      bind -n M-Down select-pane -D
+      # Alt-hjkl to switch panes (No prefix)
+      bind -n M-h select-pane -L
+      bind -n M-j select-pane -D
+      bind -n M-k select-pane -U
+      bind -n M-l select-pane -R
 
       # Shift arrow to switch windows
       bind -n S-Left  previous-window
